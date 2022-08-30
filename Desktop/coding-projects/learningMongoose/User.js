@@ -16,8 +16,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         min: 1,          // setting a minimum number for age
         max: 100,        // setting a max number for age
-        validator: v => v % 2 === 0,
-        message: props => `${props.value} is not an even number`,
+        validate: {
+            validator: v => v % 2 === 0,
+            message: props => `${props.value} is not an even number`
+        }
     },
     email: {
         type: String,
@@ -36,13 +38,15 @@ const userSchema = new mongoose.Schema({
         default: () => Date.now(),
     },
     bestFriend: mongoose.SchemaTypes.ObjectId,
-    hobbies: [String], // this is an array of strings
+    hobbies: [String], // this type is an array of strings
     // address: {             // we can nest objects as well, you can do it this way OR you can do it in a seperate Schema
     //     street: String,
     //     city: String
     // }
     address: addressSchema,
 })
+
+// All validation custom or built in only runs with the create or save method. Other built in methods dont go through validation because they go directly thought the MongoDB database.
 
 
 //module.exports will allow us to use the model in script.js

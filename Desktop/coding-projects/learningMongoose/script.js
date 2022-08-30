@@ -10,7 +10,7 @@ async function run() {
     try {
         const user = await User.create({
             name: 'Alondra',
-            age: 27,
+            age: 26, // if this was an odd number, the validation on uer.js would fail and we would get the specified message
             email: 'TEST@test.com',
             hobbies: ['Travel, Coding, Hiking'],
             address: {
