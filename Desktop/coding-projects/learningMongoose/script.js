@@ -8,16 +8,30 @@ mongoose.connect("mongodb://localhost/testdb")
 run()
 async function run() {
     try {
-        const user = await User.create({
-            name: 'Alondra',
-            age: 26, // if this was an odd number, the validation on uer.js would fail and we would get the specified message
-            email: 'TEST@test.com',
-            hobbies: ['Travel, Coding, Hiking'],
-            address: {
-                street: 'Main St',
-                city: 'Portland',
-            }
-        })
+            // commented code below to follow along with video
+
+        // const user = await User.create({
+        //     name: 'Alondra',
+        //     age: 26, // if this was an odd number, the validation on uer.js would fail and we would get the specified message
+        //     email: 'TEST@test.com',
+        //     hobbies: ['Travel, Coding, Hiking'],
+        //     address: {
+        //         street: 'Main St',
+        //         city: 'Portland',
+        //     }
+        // })
+        // console.log(user)
+
+                // commented code above to follow along with video
+
+        ////// Examples of some built in methods to use in Mongoose ////////
+        // const user = await User.findById("630d8e7fb93726a9b53052b6") // findById found the user with the specified ID 
+        // const user = await User.find({name : "Kyle"}) // find found all of the users with name Kyle
+        // const user = await User.findOne({ name: "Kyle"}) // findOne finds the first object with name of Kyle
+        // const user = await User.exists({ name: "Kyle"}) // exists returns true or false
+        const user = await User.deleteOne({ name: "Kyle"}) // first thing that matches will be deleted, deleteMany will delete everything that matches
+
+
         console.log(user)
 
     } catch (e) {
