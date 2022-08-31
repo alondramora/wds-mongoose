@@ -29,11 +29,25 @@ async function run() {
         // const user = await User.find({name : "Kyle"}) // find found all of the users with name Kyle
         // const user = await User.findOne({ name: "Kyle"}) // findOne finds the first object with name of Kyle
         // const user = await User.exists({ name: "Kyle"}) // exists returns true or false
-        const user = await User.deleteOne({ name: "Kyle"}) // first thing that matches will be deleted, deleteMany will delete everything that matches
-
-
+        // const user = await User.deleteOne({ name: "Kyle"}) // first thing that matches will be deleted, deleteMany will delete everything that matches
+        // const user = await User.where("age")
+            
+            // const user = await User.findByName({ name: "Kyle"}) // referencing line 64 in User.js, static method being used to find this
+            // const user = await User.find().byName("Kyle") // using the query method to find the objects by name of Kyle
+            const user = await User.findOne({ name: "Kyle", email: "test@test.com"})
+            /////// using a QUERY/ QUERIES to write your own find syntax ///////
+            // .gt("12") // greated than 12
+            // .where("name") // where the name
+            // .equals("Kyle") // name is equal to kyle
+            // .populate("bestFriend") // has all of the data for the best friend object
+            // .limit(1) // limit at 2 users
+            // .select("age") select only the age of the user
+        // user[0].bestfriend = "6306f762b8d5e98faeda5c62"
+        // await user[0].save()
+    
         console.log(user)
-
+        console.log(user.namedEmail)
+        // user.sayHi() // calling the sayHi function/ method we defined in our Schema
     } catch (e) {
         console.log(e.message) // will give you a more descriptive error message
     }

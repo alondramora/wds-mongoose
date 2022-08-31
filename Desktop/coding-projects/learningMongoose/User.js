@@ -37,7 +37,11 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: () => Date.now(),
     },
-    bestFriend: mongoose.SchemaTypes.ObjectId,
+    // bestFriend: mongoose.SchemaTypes.ObjectId,
+    bestFriend: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "User" // reference the User model, what model does this id look at?
+    },
     hobbies: [String], // this type is an array of strings
     // address: {             // we can nest objects as well, you can do it this way OR you can do it in a seperate Schema
     //     street: String,
@@ -46,8 +50,39 @@ const userSchema = new mongoose.Schema({
     address: addressSchema,
 })
 
-// All validation custom or built in only runs with the create or save method. Other built in methods dont go through validation because they go directly thought the MongoDB database.
+// All validation custom or built in only runs with the create or save method. Other built in methods dont go through validation because they go directly thought the MongoDB database. Some of those include find, count, findbyID, AndUpdate, AndReplace, etc. 
 
+
+//////Adding METHODS on to our user schema instances/////////
+// Create a method called sayHi, we cannot use arrow functions bc we have to use "this" to refernce the specific instance we are working with
+userSchema.methods.sayHi = function () {
+    console.log(`Hi, my name is ${this.name}`) // will console log the instance User name, we can call this sayHi function in the script.js file
+}
+
+
+///// Static methods //////
+userSchema.statics.findByName = function (name) { // we can call this function in the user.js file under the user
+    return this.find({ name: new RegExp(name, "i")})
+}
+
+
+////// Adding something only to a query ////////
+userSchema.query.byName = function (name) {
+    return this.find({ name: new RegExp(name, "i")}) // chainable with a query
+
+}
+
+
+////// Virtual ///////
+
+// namedEmail is the name we are giving this virutal. A virtual is a property that is not on the actual schema but its a virtual property based on other properties on there. Does not get saved in our database only avail inside of our code.
+
+userSchema.virtual('namedEmail').get(function () {
+    return `${this.name} <${this.email}>` // I think this is the reason my code is returning null, will pick back up on this tomorrow
+})
+
+
+////// Middleware for save, validate, and remove ///////
 
 //module.exports will allow us to use the model in script.js
 // Model name will be the first param and name of a collection in MongoDB
